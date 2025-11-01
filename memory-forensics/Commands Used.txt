@@ -1,0 +1,22 @@
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.pslist.PsList
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.pstree.PsTree
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.psscan.PsScan
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.dlllist.DllList --pid 5440
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.netscan.NetScan
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.cmdline.CmdLine --pid 5440
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.envars.Envars --pid 5440
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.handles.Handles --pid 5440 | findstr /i " Key  \REGISTRY"
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.registry.hivelist.HiveList
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.filescan.FileScan
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.mftscan.MFTScan
+
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp -o dumped_5440 windows.memmap --dump --pid 5440
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.malfind.Malfind --pid 5440
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.vadinfo --pid 5440
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp -o extracted windows.dumpfiles.DumpFiles --virtaddr 0xb70fd48a87f0
+
+python ./volatility3-stable/vol.py -f DESKTOP-T9B0RPA-20240121-074716.dmp windows.vadyarascan.VadYaraScan --pid 5440 --yara-file detect_mbcheck.yar
+yara -r detect_mbcheck.yar C:\Windows\
+yara -r detect_mbcheck.yar C:\Users\thien\Desktop\
+
+
